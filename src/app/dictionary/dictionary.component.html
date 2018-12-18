@@ -1,0 +1,12 @@
+<mat-toolbar color="primary" class="toolbar">
+  <span>{{apiService.currentUserName}}'s Dictionary</span>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="changeRoute('dictionary/translator')">Translator</button>
+  <button mat-menu-item (click)="changeRoute('dictionary/statistics')">Statistics</button>
+  <button mat-menu-item (click)="changeRoute('dictionary/game')">Game</button>
+</mat-menu>
+<router-outlet></router-outlet>

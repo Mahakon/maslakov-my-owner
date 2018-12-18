@@ -1,0 +1,44 @@
+<form class="form" [formGroup]="form">
+
+  <mat-form-field class="example-full-width">
+    <input formControlName="word" matInput #message maxlength="256" placeholder="Word or Phrase">
+    <mat-hint align="start"><strong>En/Rus</strong> </mat-hint>
+    <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+  </mat-form-field>
+
+  <div class="fields">
+    <mat-form-field>
+      <select matNativeControl formControlName="from"  required placeholder="From">
+        <option value="en">English</option>
+        <option value="ru">Russian</option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <select matNativeControl formControlName="to" required placeholder="To">
+        <option value="en">English</option>
+        <option value="ru">Russian</option>
+      </select>
+    </mat-form-field>
+  </div>
+
+</form>
+
+<button class="submit"
+        mat-button
+        color="primary"
+        (click)="submit()"
+        [disabled]="form.invalid">Translate</button>
+
+<div *ngIf="translations.length !== 0" class="list">
+  <mat-list>
+    <h3 mat-subheader>Translations of {{translatedText}}</h3>
+    <mat-list-item *ngFor="let translation of translations">
+      <button mat-icon-button color="warn" (click)="registerChosenWord(translation)">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <h4 mat-line>{{translation.translation}}</h4>
+      <p mat-line> {{translation.partOfSpeech}}</p>
+    </mat-list-item>
+  </mat-list>
+</div>

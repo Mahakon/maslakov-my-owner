@@ -1,0 +1,22 @@
+<mat-card class="loc-card">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <form class="form"
+          [formGroup]="form">
+      <mat-form-field>
+        <input matInput placeholder="username" formControlName="username" required>
+        <mat-error *ngIf="form.get('username').invalid">{{getErrorMessage(form.get('username'))}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="password" formControlName="password" required>
+        <mat-error *ngIf="form.get('password').invalid">{{getErrorMessage(form.get('password'))}}</mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button
+            color="primary"
+            (click)="submit()"
+            [disabled]="form.invalid">Login</button>
+  </mat-card-actions>
+</mat-card>

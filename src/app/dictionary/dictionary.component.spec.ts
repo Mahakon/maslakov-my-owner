@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RewriterComponent } from './rewriter.component';
+import { DictionaryComponent } from './dictionary.component';
 
-describe('RewriterComponent', () => {
-  let component: RewriterComponent;
-  let fixture: ComponentFixture<RewriterComponent>;
+describe('DictionaryComponent', () => {
+  let component: DictionaryComponent;
+  let fixture: ComponentFixture<DictionaryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RewriterComponent ]
+      declarations: [ DictionaryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RewriterComponent);
+    fixture = TestBed.createComponent(DictionaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
