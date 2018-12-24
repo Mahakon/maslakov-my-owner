@@ -6,6 +6,7 @@ import {SignComponent} from '../app/sign/sign.component';
 import {TranslatorComponent} from '../app/dictionary/translator/translator.component';
 import {GameComponent} from '../app/dictionary/game/game.component';
 import {StatisticsComponent} from '../app/dictionary/statistics/statistics.component';
+import {ProfileComponent} from '../app/dictionary/profile/profile.component';
 
 export const ROUTES: Routes = [
   {
@@ -55,6 +56,10 @@ export const ROUTES: Routes = [
           {
             path: 'statistics',
             component: StatisticsComponent
+          },
+          {
+            path: 'profile',
+            component: ProfileComponent
           }
         ]
       }

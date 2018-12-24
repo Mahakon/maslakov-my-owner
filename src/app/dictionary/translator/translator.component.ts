@@ -4,7 +4,9 @@ import {Subject} from 'rxjs';
 import {controlTreeTraversal} from '../../../common/extra/extra';
 import {ApiService} from '../../../common/services/api.service';
 import {ITranslation, IWord} from '../../../common/common.entities';
-import {takeUntil} from 'rxjs/operators';
+import {catchError, takeUntil} from 'rxjs/operators';
+import {MatDialog} from '@angular/material';
+import {ErrorDialogComponent} from '../../../common/components/errorDialog/errorDialog.component';
 
 @Component({
   selector: 'app-translator',
@@ -21,7 +23,8 @@ export class TranslatorComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private apiService: ApiService
+    private apiService: ApiService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -47,20 +50,46 @@ export class TranslatorComponent implements OnInit, OnDestroy {
     }
 
     this.apiService.translateWord(this.word)
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(
+        catchError(({error}) => {
+          const dialogRef = this.dialog.open(ErrorDialogComponent, {
+            width: '400px',
+            data: {error: error.errorMessage}
+          });
+
+          dialogRef.afterClosed().subscribe(() => {});
+
+          return [];
+        }),
+        takeUntil(this.onDestroy$)
+      )
       .subscribe((e) => {
         this.translatedText = e.text;
-        throw this.translations = e.translations;
+        this.translations = e.translations;
       });
   }
 
   registerChosenWord(translation: ITranslation) {
+    this.translations = this.translations.filter((trans) => {
+      return trans !== translation;
+    });
+
     this.apiService.registerWord({
       text: this.translatedText,
       translation
-    }).pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-      });
+    }).pipe(
+      catchError(({error}) => {
+        const dialogRef = this.dialog.open(ErrorDialogComponent, {
+          width: '400px',
+          data: {error: error.errorMessage}
+        });
+
+        dialogRef.afterClosed().subscribe(() => {});
+
+        return [];
+      }),
+      takeUntil(this.onDestroy$)
+    ).subscribe();
   }
 
   private get word(): IWord {

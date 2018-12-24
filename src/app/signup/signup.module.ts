@@ -6,6 +6,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {ErrorDialogModule} from '../../common/components/errorDialog/errorDialog.module';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   imports: [

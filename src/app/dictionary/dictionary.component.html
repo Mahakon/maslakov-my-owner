@@ -5,8 +5,10 @@
   </button>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="changeRoute('dictionary/profile')">Profile</button>
   <button mat-menu-item (click)="changeRoute('dictionary/translator')">Translator</button>
   <button mat-menu-item (click)="changeRoute('dictionary/statistics')">Statistics</button>
   <button mat-menu-item (click)="changeRoute('dictionary/game')">Game</button>
+  <button mat-menu-item (click)="deleteAccount()">Delete Account</button>
 </mat-menu>
 <router-outlet></router-outlet>

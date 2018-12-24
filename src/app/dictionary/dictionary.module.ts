@@ -14,6 +14,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatListModule} from '@angular/material/list';
+import {ProfileComponent} from './profile/profile.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -31,19 +34,23 @@ import {MatListModule} from '@angular/material/list';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatTabsModule,
+    MatCardModule
   ],
   exports: [
     DictionaryComponent,
     TranslatorComponent,
     StatisticsComponent,
-    GameComponent
+    GameComponent,
+    ProfileComponent
   ],
   declarations: [
     DictionaryComponent,
     TranslatorComponent,
     StatisticsComponent,
-    GameComponent
+    GameComponent,
+    ProfileComponent
   ]
 })
 export class DictionaryModule { }

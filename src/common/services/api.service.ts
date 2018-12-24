@@ -44,7 +44,7 @@ export class ApiService {
   }
 
   registerWord(word: ITranslatedWord): Observable<any> {
-    const url = BACK_HOST + `/user/registerChosenTranslation`;
+    const url = BACK_HOST + `/user/registerChosenTranslation?language=en`;
 
     return this.http.post<any>(url, word, COMMON_OPTIONS);
   }
@@ -53,6 +53,48 @@ export class ApiService {
     const url = BACK_HOST + `/user/dictionary`;
 
     return this.http.get<IDictionaryWord[]>(url, COMMON_OPTIONS);
+  }
+
+  getCounter(): Observable<any> {
+    const url = BACK_HOST + '/user/summary';
+
+    return  this.http.get(url, COMMON_OPTIONS);
+  }
+
+  deleteUser(): Observable<any> {
+    const url = BACK_HOST + `/user/delete`;
+
+    return this.http.post<any>(url, null, COMMON_OPTIONS);
+  }
+
+  deleteWordFromDictionary(id: number): Observable<any> {
+    const url = BACK_HOST + `/user/word/delete?id=${id}`;
+
+    return this.http.post<any>(url, null, COMMON_OPTIONS);
+  }
+
+  getWordInfo(id: number): Observable<any> {
+    const  url = BACK_HOST + `/user/word/info?id=${id}`;
+
+    return this.http.get<any>(url, COMMON_OPTIONS);
+  }
+
+  editWordInfo(id: number, trans: string): Observable<any> {
+    const  url = BACK_HOST + `/user/word/changeTranslation?id=${id}&newTranslation=${trans}`;
+
+    return this.http.post<any>(url, null, COMMON_OPTIONS);
+  }
+
+  changeUserInfo(userInfo: IUser): Observable<any> {
+    const url = BACK_HOST + '/user/changeCredentials';
+
+    return this.http.post<IUser>(url, userInfo, COMMON_OPTIONS);
+  }
+
+  getUserInfo(): Observable<IUser> {
+    const url = BACK_HOST + '/user/userInfo';
+
+    return this.http.get<IUser>(url, COMMON_OPTIONS);
   }
 
   private serialize(obj: object): string {

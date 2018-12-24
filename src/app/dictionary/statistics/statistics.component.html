@@ -2,9 +2,22 @@
   <mat-list>
     <h3 mat-subheader>Dictionary</h3>
     <mat-list-item *ngFor="let dictionaryWord of dictionaryWords">
-      <mat-icon mat-list-icon>folder</mat-icon>
-      <h4 mat-line>{{dictionaryWord.word}}</h4>
-      <p mat-line> {{dictionaryWord.levelOfKnowledge}}</p>
+      <button mat-icon-button color="primary" (click)="deleteWordFromDictionary(dictionaryWord)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="showInfo(dictionaryWord)">
+        <mat-icon>info</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="editInfo(dictionaryWord)">
+        <mat-icon>border_color</mat-icon>
+      </button>
+      <h4 mat-line [style.background-color]="COLORS[dictionaryWord.levelOfKnowledge]">{{dictionaryWord.word}}</h4>
+      <p mat-line> {{dictionaryWord.translation}}</p>
     </mat-list-item>
   </mat-list>
 </div>
+<button mat-icon-button color="primary" (click)="addWord()">
+  <mat-icon>playlist_add</mat-icon>
+</button>
+<h1>Number of words this week</h1>
+<span>{{counter}}</span>

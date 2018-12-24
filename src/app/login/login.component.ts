@@ -2,10 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IUser, IUserLoginInfo} from '../../common/common.entities';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {controlTreeTraversal} from '../../common/extra/extra';
-import {takeUntil} from 'rxjs/operators';
+import {catchError, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {ApiService} from '../../common/services/api.service';
 import {NavigationService} from '../../common/services/navigation.service';
+import {MatDialog} from '@angular/material';
+import {ErrorDialogComponent} from '../../common/components/errorDialog/errorDialog.component';
 
 @Component({
   selector: 'app-rewriter',
@@ -20,12 +22,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      username: ['di', [Validators.required]],
+      username: ['masha', [Validators.required]],
       password: ['123', [Validators.required]],
     });
   }
@@ -51,6 +54,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.apiService.signIn(this.userInfo)
       .pipe(
+        catchError(() => {
+          const dialogRef = this.dialog.open(ErrorDialogComponent, {
+            width: '400px',
+            data: {error: 'Wrong login/password'}
+          });
+
+          dialogRef.afterClosed().subscribe(() => {});
+
+          return [];
+        }),
         takeUntil(this.onDestroy$)
       )
       .subscribe((data) => {

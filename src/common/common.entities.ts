@@ -13,11 +13,11 @@ export const COMMON_OPTIONS = {
 };
 
 export interface IUser {
-  nickName: string;
-  email: string;
+  nickName?: string;
+  email?: string;
   password?: string;
-  firstName: string;
-  secondName: string;
+  firstName?: string;
+  secondName?: string;
 }
 
 export interface IUserLoginInfo {
@@ -49,11 +49,13 @@ export interface ITranslatedWord {
 export interface IDictionaryWord {
   levelOfKnowledge: string;
   word: string;
+  wordId: number;
+  translation: string;
 }
 
 export interface IGameTranslation {
   rightTranslation: string;
   word: string;
-  wordId: 0;
+  wordId: number;
   wrongTranslations: string[];
 }

@@ -1,19 +1,20 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
-import {controlTreeTraversal} from '../../common/extra/extra';
-import {ApiService} from '../../common/services/api.service';
-import {IUser} from '../../common/common.entities';
 import {Subject} from 'rxjs';
 import {catchError, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
-import {ErrorDialogComponent} from '../../common/components/errorDialog/errorDialog.component';
+import {ApiService} from '../../../common/services/api.service';
+import {controlTreeTraversal} from '../../../common/extra/extra';
+import {ErrorDialogComponent} from '../../../common/components/errorDialog/errorDialog.component';
+import {IUser} from '../../../common/common.entities';
+import {NavigationService} from '../../../common/services/navigation.service';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.less']
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.less']
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   private onDestroy$ = new Subject<void>();
@@ -21,17 +22,23 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private navigationService: NavigationService
   ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      nickName: ['maha', [Validators.required]],
-      email: ['mkon.masha@gmail.com', [Validators.required, Validators.email]],
-      password: ['3', [Validators.required]],
-      firstName: ['3', [Validators.required]],
-      secondName: ['3', [Validators.required]]
+      nickName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['123', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      secondName: ['', [Validators.required]]
     });
+
+    this.apiService.getUserInfo()
+      .subscribe((user) => {
+        this.form.patchValue(user);
+      });
   }
 
   ngOnDestroy() {
@@ -53,9 +60,9 @@ export class SignupComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.apiService.signUp(this.userInfo)
+    this.apiService.changeUserInfo(this.userInfo)
       .pipe(
-        catchError(() => {
+        catchError((error) => {
           const dialogRef = this.dialog.open(ErrorDialogComponent, {
             width: '400px',
             data: {error: 'Such user is already exist'}
@@ -68,7 +75,8 @@ export class SignupComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$)
       )
       .subscribe((data) => {
-        this.apiService.currentUserName = data.nickName;
+        this.navigationService.goTo('sign/in');
+        this.apiService.currentUserName = this.userInfo.nickName;
       });
   }
 

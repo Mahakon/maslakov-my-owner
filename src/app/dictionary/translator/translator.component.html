@@ -35,7 +35,7 @@
     <h3 mat-subheader>Translations of {{translatedText}}</h3>
     <mat-list-item *ngFor="let translation of translations">
       <button mat-icon-button color="warn" (click)="registerChosenWord(translation)">
-        <mat-icon>favorite</mat-icon>
+        <mat-icon>add</mat-icon>
       </button>
       <h4 mat-line>{{translation.translation}}</h4>
       <p mat-line> {{translation.partOfSpeech}}</p>
